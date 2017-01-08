@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.sys.mapper.RoleMapper">
+
+	<resultMap id="roleResult" type="com.yuyoukj.sys.model.Role">
+		<result property="rid" column="rid" />
+		<result property="sname" column="sname" />
+		<result property="createby" column="createby" />
+		<result property="createdate" column="createdate" />
+		<result property="remarks" column="remarks" />
+		<result property="delflag" column="delflag" />
+	</resultMap>
+
+	<select id="getRoleList" parameterType="java.util.HashMap"
+		resultMap="roleResult">
+		SELECT a.rid, a.sname, b.username as username,
+			LEFT(FROM_UNIXTIME(a.createdate/1000),10) createdate, a.remarks,
+			a.delflag
+		FROM sys_role a
+		LEFT JOIN info_user b on b.userid = a.createby
+		WHERE 1 = 1
+			<if test="sname != null">
+				AND sname LIKE CONCAT('%','${sname}','%')
+			</if>
+	</select>
+
+	<select id="checkSname" parameterType="java.util.HashMap"
+		resultType="Integer">
+		SELECT count(1)
+		FROM sys_role a
+		WHERE a.sname = #{sname}
+		<if test="rid != null">
+			AND a.rid != #{rid}
+		</if>
+	</select>
+
+	<select id="getRole" parameterType="Long" resultMap="roleResult">
+		SELECT a.rid, a.sname, a.createby, 
+			LEFT(FROM_UNIXTIME(a.createdate/1000),10) createdate,
+			a.remarks, a.delflag
+		FROM sys_role a
+		WHERE a.rid = #{rid}
+	</select>
+
+	<update id="updateRole" parameterType="com.yuyoukj.sys.model.Role">
+		UPDATE sys_role a
+			SET a.sname = #{sname}
+			<if test="rid != null">
+				, a.rid = #{rid}
+			</if>
+			<if test="createby != createby">
+				, a.createby = #{createby}
+			</if>
+			<if test="createdate != createdate">
+				, a.createdate = #{createdate}
+			</if>
+			<if test="remarks != null">
+				, a.remarks = #{remarks}
+			</if>
+			<if test="delflag != null">
+				, a.delflag = #{delflag}
+			</if>
+		WHERE a.rid = #{rid}
+	</update>
+
+	<insert id="saveRole" parameterType="com.yuyoukj.sys.model.Role"
+		useGeneratedKeys="true" keyProperty="rid">
+		INSERT INTO sys_role (sname, createby, createdate, remarks,
+			delflag)
+		VALUES (#{sname}, #{createby}, #{createdate}, #{remarks},
+			#{delflag})
+	</insert>
+
+	<delete id="delRole" parameterType="Long">
+		DELETE FROM sys_role 
+		WHERE rid = #{rid}
+	</delete>
+
+
+	<resultMap id="interFunRoleResult" type="com.yuyoukj.sys.model.InterFunRole">
+		<result property="seq" column="seq" />
+		<result property="rid" column="rid" />
+		<result property="fid" column="fid" />
+	</resultMap>
+
+	<insert id="saveFunRole" parameterType="java.util.HashMap"
+		useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO inter_fun_role (rid, fid)
+		VALUES (#{rid}, #{fid})
+	</insert>
+
+	<insert id="addCheckedNodes" parameterType="java.util.HashMap"
+		useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO inter_fun_role (rid, fid)
+		VALUES (#{rid}, (SELECT fid as fid FROM sys_fun WHERE id = #{id}) )
+	</insert>
+
+	<delete id="delCheckedNodes" parameterType="Long">
+		DELETE FROM inter_fun_role WHERE rid = #{rid}
+	</delete>
+
+	<delete id="delInterRoleUser" parameterType="Long">
+		DELETE FROM inter_role_user WHERE rid = #{rid}
+	</delete>
+</mapper>

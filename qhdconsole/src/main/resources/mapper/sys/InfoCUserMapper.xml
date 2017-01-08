@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.sys.mapper.InfoCUserMapper">
+
+	<resultMap id="infoCUserResult" type="com.yuyoukj.sys.model.InfoCUser">
+		<result property="userid" column="userid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="userstate" column="userstate" />
+		<result property="nickname" column="nickname" />
+	</resultMap>
+
+	<select id="queryUserInfo" parameterType="java.util.HashMap"
+		resultMap="infoCUserResult">
+		SELECT * FROM info_user WHERE username = #{username}
+	</select>
+
+	<select id="getUser" parameterType="java.util.HashMap"
+		resultMap="infoCUserResult">
+		SELECT userid, username, password, userstate
+		FROM info_user
+		WHERE 1 = 1
+		<if test="username != null">
+			AND username = #{username}
+		</if>
+		<if test="userid != null">
+			AND userid = #{userid}
+		</if>
+	</select>
+
+	<update id="changepwd" parameterType="java.util.HashMap">
+		UPDATE info_user a
+		SET a.password = #{password}
+		WHERE a.userid = #{userid}
+	</update>
+
+	<select id="getInfoCUserList" parameterType="java.util.HashMap"
+		resultMap="infoCUserResult">
+		SELECT userid, username, password, userstate, nickname
+		FROM info_user
+		WHERE 1 = 1
+		<if test="username != null">
+			AND username LIKE CONCAT('%','${username}','%')
+		</if>
+	</select>
+
+	<select id="getInfoCUserRoleList" parameterType="java.util.HashMap"
+		resultMap="infoCUserResult">
+		SELECT a.userid, a.username, a.password, a.userstate,
+			a.nickname
+		FROM info_user a, inter_role_user b, sys_role c
+		WHERE a.userid = b.userid
+			AND b.rid = c.rid
+			AND c.sname = '代理商'
+			<if test="username != null">
+				AND a.username LIKE CONCAT('%','${username}','%')
+			</if>
+	</select>
+
+	<select id="getInfoCUser" parameterType="Long" resultMap="infoCUserResult">
+		SELECT a.userid, a.username, a.userstate, a.nickname,
+			b.rid as rid
+		FROM info_user a
+		LEFT JOIN inter_role_user b on b.userid = a.userid
+		LEFT JOIN sys_role c ON c.rid = b.rid
+		WHERE a.userid = #{userid}
+	</select>
+
+	<update id="updateInfoCUser" parameterType="com.yuyoukj.sys.model.InfoCUser">
+		UPDATE info_user a
+			SET a.userid = #{userid}
+			<if test="password != null">
+				, a.password = #{password}
+			</if>
+			<if test="userstate != null">
+				, a.userstate = #{userstate}
+			</if>
+			<if test="nickname != null">
+				, a.nickname = #{nickname}
+			</if>
+		WHERE a.userid = #{userid}
+	</update>
+
+	<insert id="saveInfoCUser" parameterType="com.yuyoukj.sys.model.InfoCUser"
+		useGeneratedKeys="true" keyProperty="userid">
+		INSERT INTO info_user (username, password, userstate, nickname)
+		VALUES (#{username}, #{password}, #{userstate}, #{nickname})
+	</insert>
+
+	<delete id="delInfoCUser" parameterType="Long">
+		DELETE FROM info_user
+		WHERE userid = #{userid}
+	</delete>
+
+	<select id="checkInfoCUser" parameterType="java.util.HashMap"
+		resultType="Integer">
+		SELECT count(1)
+		FROM info_user a
+		WHERE a.username = #{username}
+			<if test="userid != null">
+				AND a.userid != #{userid}
+			</if>
+	</select>
+
+	<resultMap id="interRoleUserResult" type="com.yuyoukj.sys.model.InterRoleUser">
+		<result property="seq" column="seq" />
+		<result property="rid" column="rid" />
+		<result property="userid" column="userid" />
+	</resultMap>
+
+	<insert id="saveInterRoleUser" parameterType="java.util.HashMap"
+		useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO inter_role_user (rid, userid)
+		VALUES (#{rid}, #{userid})
+	</insert>
+
+	<select id="getRoleUser" parameterType="Long" resultMap="interRoleUserResult">
+		SELECT seq, rid, userid
+		FROM inter_role_user
+		WHERE userid = #{userid}
+	</select>
+	
+	<delete id="delInterRoleUser" parameterType="Long">
+		DELETE FROM inter_role_user WHERE userid = #{userid}
+	</delete>
+</mapper>

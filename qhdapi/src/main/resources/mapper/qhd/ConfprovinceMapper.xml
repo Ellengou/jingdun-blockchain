@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.ConfprovinceMapper">
+
+	<resultMap id="ConfprovinceResult" type="com.yuyoukj.model.qhd.Confprovince">
+		<result property="id" column="id"/>
+		<result property="provinceid" column="provinceid"/>
+		<result property="provincename" column="provincename"/>
+		<result property="orderby" column="orderby"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM conf_province a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="id !=null">
+				AND a.id != #{id}
+			</if>
+	</select>
+
+	<select id="getConfprovince" parameterType="java.util.HashMap" resultMap="ConfprovinceResult">
+		SELECT
+			a.id,
+			a.provinceid,
+			a.provincename,
+			a.orderby
+		FROM conf_province a
+		WHERE a.id = #{id}
+	</select>
+
+	<select id="getConfprovinceList" parameterType="java.util.HashMap" resultMap="ConfprovinceResult">
+		SELECT
+			a.id,
+			a.provinceid,
+			a.provincename,
+			a.orderby
+		FROM conf_province a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateConfprovince" parameterType="com.yuyoukj.model.qhd.Confprovince">
+       UPDATE conf_province a
+            SET a.updatedate = #{updatedate}
+            <if test="provinceid != null">
+            	, a.provinceid = #{provinceid}
+            </if>
+            <if test="provincename != null">
+            	, a.provincename = #{provincename}
+            </if>
+            <if test="orderby != null">
+            	, a.orderby = #{orderby}
+            </if>
+         WHERE a.id = #{id}
+	</update>
+	
+	<update id="updateConfprovince_map" parameterType="java.util.HashMap">
+       UPDATE conf_province a
+            SET a.updatedate = #{updatedate}
+            <if test="provinceid != null">
+            	, a.provinceid = #{provinceid}
+            </if>
+            <if test="provincename != null">
+            	, a.provincename = #{provincename}
+            </if>
+            <if test="orderby != null">
+            	, a.orderby = #{orderby}
+            </if>
+         WHERE a.id = #{id}
+	</update>
+
+	<insert id="saveConfprovince" parameterType="com.yuyoukj.model.qhd.Confprovince" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO conf_province
+            (
+				provinceid,
+				provincename,
+				orderby
+			)
+        VALUES
+            (
+				#{provinceid},
+				#{provincename},
+				#{orderby}
+			)
+	</insert>
+
+	<delete id="delConfprovince" parameterType="java.util.HashMap">
+		DELETE FROM conf_province WHERE id = #{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

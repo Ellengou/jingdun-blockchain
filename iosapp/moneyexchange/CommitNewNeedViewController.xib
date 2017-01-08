@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommitNewNeedViewController">
+            <connections>
+                <outlet property="theTable" destination="pBx-GA-5We" id="OdG-2L-krG"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qoM-oz-oIK">
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3hc-Si-DAt">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="pNE-X4-aOq"/>
+                                <constraint firstAttribute="height" constant="44" id="yrz-w1-YuE"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" image="btn_left.png">
+                                <color key="titleColor" red="0.50980392159999999" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clickedBack:" destination="-1" eventType="touchUpInside" id="Xuy-Ue-084"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新需求" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="exZ-od-90l">
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" red="0.062745098040000002" green="0.062745098040000002" blue="0.062745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="64" id="7mO-bb-0da"/>
+                        <constraint firstItem="3hc-Si-DAt" firstAttribute="leading" secondItem="qoM-oz-oIK" secondAttribute="leading" id="J8g-Vz-cr6"/>
+                        <constraint firstAttribute="bottom" secondItem="3hc-Si-DAt" secondAttribute="bottom" id="hS4-ct-cav"/>
+                        <constraint firstAttribute="height" constant="64" id="iCD-bJ-AeB"/>
+                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="64" id="jdg-MN-K9E"/>
+                        <constraint firstItem="exZ-od-90l" firstAttribute="centerY" secondItem="3hc-Si-DAt" secondAttribute="centerY" id="klf-ao-5x5"/>
+                        <constraint firstItem="exZ-od-90l" firstAttribute="centerX" secondItem="qoM-oz-oIK" secondAttribute="centerX" id="rz3-AW-Wah"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="63" id="rz5-Tz-rbc"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="pBx-GA-5We">
+                    <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="2Bd-oL-7Jq"/>
+                        <outlet property="delegate" destination="-1" id="Voa-49-LOz"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="qoM-oz-oIK" secondAttribute="trailing" id="1If-ew-nr9"/>
+                <constraint firstAttribute="bottom" secondItem="pBx-GA-5We" secondAttribute="bottom" id="Xkf-EC-PXu"/>
+                <constraint firstItem="pBx-GA-5We" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="XoU-9o-79r"/>
+                <constraint firstItem="pBx-GA-5We" firstAttribute="top" secondItem="qoM-oz-oIK" secondAttribute="bottom" id="Zl7-AF-v8E"/>
+                <constraint firstAttribute="trailing" secondItem="pBx-GA-5We" secondAttribute="trailing" id="cPF-og-Vo0"/>
+                <constraint firstItem="qoM-oz-oIK" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="e4V-Ms-tEP"/>
+                <constraint firstItem="qoM-oz-oIK" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="rjV-EL-4Jm"/>
+            </constraints>
+            <point key="canvasLocation" x="101.5" y="136.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_left.png" width="10" height="18"/>
+    </resources>
+</document>

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: www.yuyoukj.third:pingpp-java:2.1.9">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../repo/www/yuyoukj/third/pingpp-java/2.1.9/pingpp-java-2.1.9.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../repo/www/yuyoukj/third/pingpp-java/2.1.9/pingpp-java-2.1.9-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../repo/www/yuyoukj/third/pingpp-java/2.1.9/pingpp-java-2.1.9-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

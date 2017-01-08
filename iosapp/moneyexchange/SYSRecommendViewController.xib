@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SYSRecommendViewController">
+            <connections>
+                <outlet property="tableSysRecommend" destination="jWq-OD-g3r" id="31y-Xu-eaz"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="acI-yP-5us">
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HiO-Md-pqK">
+                            <constraints>
+                                <constraint firstAttribute="width" constant="44" id="e3z-Wi-0zM"/>
+                                <constraint firstAttribute="height" constant="44" id="lny-dl-1PC"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <state key="normal" image="btn_left.png">
+                                <color key="titleColor" red="0.50980392159999999" green="0.67450980390000004" blue="0.96470588239999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="clickBack:" destination="-1" eventType="touchUpInside" id="V8c-pp-Vmw"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="系统推荐" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jlr-iL-SsI">
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <color key="textColor" red="0.062745098040000002" green="0.062745098040000002" blue="0.062745098040000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.97254901959999995" green="0.97254901959999995" blue="0.97254901959999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstItem="jlr-iL-SsI" firstAttribute="centerY" secondItem="HiO-Md-pqK" secondAttribute="centerY" id="6jC-qH-KBc"/>
+                        <constraint firstItem="HiO-Md-pqK" firstAttribute="leading" secondItem="acI-yP-5us" secondAttribute="leading" id="Kb2-Bq-rIc"/>
+                        <constraint firstAttribute="bottom" secondItem="HiO-Md-pqK" secondAttribute="bottom" id="YRS-2U-tmO"/>
+                        <constraint firstAttribute="height" constant="64" id="rgW-3V-VFP"/>
+                        <constraint firstItem="jlr-iL-SsI" firstAttribute="centerX" secondItem="acI-yP-5us" secondAttribute="centerX" id="sAo-LW-9Cx"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="63" id="ucU-aU-lJB"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jWq-OD-g3r">
+                    <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="2CK-FH-htN"/>
+                        <outlet property="delegate" destination="-1" id="y10-j9-yg0"/>
+                    </connections>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="jWq-OD-g3r" firstAttribute="top" secondItem="acI-yP-5us" secondAttribute="bottom" id="909-2t-oIl"/>
+                <constraint firstItem="acI-yP-5us" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="HKv-3X-pzb"/>
+                <constraint firstAttribute="bottom" secondItem="jWq-OD-g3r" secondAttribute="bottom" id="Xpm-6N-YB1"/>
+                <constraint firstAttribute="trailing" secondItem="jWq-OD-g3r" secondAttribute="trailing" id="aIs-Dp-Xmi"/>
+                <constraint firstItem="acI-yP-5us" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="c4D-kc-Fmr"/>
+                <constraint firstAttribute="trailing" secondItem="acI-yP-5us" secondAttribute="trailing" id="jJ0-cR-OSo"/>
+                <constraint firstItem="jWq-OD-g3r" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="lcI-Ig-aPG"/>
+            </constraints>
+        </view>
+    </objects>
+    <resources>
+        <image name="btn_left.png" width="10" height="18"/>
+    </resources>
+</document>

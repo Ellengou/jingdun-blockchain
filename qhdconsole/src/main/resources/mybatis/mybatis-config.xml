@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<!-- changes from the defaults -->
+		<setting name="lazyLoadingEnabled" value="true" />
+	</settings>
+	<plugins>
+		<!-- -->
+		<plugin
+			interceptor="com.yuyoukj.ao.util.mybatis.DiclectStatementHandlerInterceptor" />
+		<plugin
+			interceptor="com.yuyoukj.ao.util.mybatis.DiclectResultSetHandlerInterceptor" />
+		<plugin interceptor="com.yuyoukj.ao.util.mybatis.SqlHandlerInterceptor" />
+	</plugins>
+</configuration>

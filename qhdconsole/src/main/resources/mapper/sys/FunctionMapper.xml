@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.sys.mapper.FunctionMapper">
+	<resultMap id="functionResult" type="com.yuyoukj.sys.model.Function">
+		<result property="fid" column="fid" />
+		<result property="sname" column="sname" />
+		<result property="href" column="href" />
+		<result property="isshow" column="isshow" />
+		<result property="createby" column="createby" />
+		<result property="createdate" column="createdate" />
+		<result property="remarks" column="remarks" />
+		<result property="sflag" column="sflag" />
+		<result property="slevel" column="slevel" />
+		<result property="parentid" column="parentid" />
+		<result property="parentids" column="parentids" />
+		<result property="pid" column="pid" />
+		<result property="pids" column="pids" />
+		<result property="icon" column="icon" />
+	</resultMap>
+	
+	<select id="getFunctionList" parameterType="java.util.HashMap"
+		resultMap="functionResult">
+		SELECT a.fid, a.sname, a.href, a.isshow, 
+			b.username AS username ,
+			LEFT(FROM_UNIXTIME(a.createdate/1000),10) as createdate, 
+			a.remarks, a.sflag, a.slevel, a.parentid, 
+			a.parentids, a.icon 
+		FROM sys_fun a 
+		LEFT JOIN info_user b on b.userid = a.createby 
+		WHERE 1 = 1 
+			AND a.isshow = 1
+			<if test="sname != null"> 
+				AND a.sname LIKE CONCAT('%','${sname}','%')
+			</if>
+			<if test="pid != null"> 
+				AND a.pid = #{pid}
+			</if>
+		ORDER BY a.orderby
+	</select>
+	
+	<select id="getFunction" parameterType="Long" resultMap="functionResult"> 
+		SELECT fid, sname, href, isshow, 
+			createby,
+			LEFT(FROM_UNIXTIME(createdate/1000),10) as createdate, 
+			remarks, sflag, slevel, parentid, 
+			parentids, pid, pids, id, 
+			icon 
+		FROM sys_fun 
+		WHERE fid = #{fid}
+	</select>
+	
+	<select id="getFunctionById" parameterType="Long" resultMap="functionResult">
+		SELECT a.fid, a.sname, a.href, a.isshow, 
+			b.username AS username,
+			LEFT(FROM_UNIXTIME(a.createdate/1000),10) as createdate, 
+			a.remarks, a.sflag, a.slevel, a.parentid, 
+			a.parentids, a.pid, a.pids, a.icon 
+		FROM sys_fun a 
+		LEFT JOIN info_user b on b.userid = a.createby 
+		WHERE id = #{id} 
+			AND a.isshow = 1
+	</select>
+	
+	<update id="updateFunction" parameterType="com.yuyoukj.sys.model.Function">
+		UPDATE sys_fun a 
+			SET a.fid = #{fid}
+			<if test="sname != null"> 
+				, a.sname = #{sname}
+			</if>
+			<if test="href != null"> 
+				, a.href = #{href}
+			</if>
+			<if test="isshow != null"> 
+				, a.isshow = #{isshow}
+			</if>
+			<if test="createby != null"> 
+				, a.createby = #{createby}
+			</if>
+			<if test="createdate != null"> 
+				, a.createdate = #{createdate}
+			</if>
+			<if test="remarks != null"> 
+				, a.remarks = #{remarks}
+			</if>
+			<if test="sflag != null"> 
+				, a.sflag = #{sflag}
+			</if>
+			<if test="slevel != null"> 
+				, a.slevel = #{slevel}
+			</if>
+			<if test="parentid != null"> 
+				, a.parentid = #{parentid}
+			</if>
+			<if test="parentids != null"> 
+				, a.parentids = #{parentids}
+			</if>
+			<if test="orderby != null"> 
+				, a.orderby = #{orderby}
+			</if>
+			<if test="icon != null"> 
+				, a.icon = #{icon}
+			</if>
+		WHERE a.fid = #{fid}
+	</update>
+	
+	<insert id="saveFunction" parameterType="com.yuyoukj.sys.model.Function"
+		useGeneratedKeys="true" keyProperty="fid"> 
+		INSERT INTO sys_fun (sname, href, isshow, createby, 
+			createdate, remarks, sflag, slevel, 
+			parentid, parentids, pid, id, 
+			icon) 
+		VALUES (#{sname}, #{href}, #{isshow}, #{createby},
+			#{createdate}, #{remarks}, #{sflag}, #{slevel},
+			#{parentid}, #{parentids}, #{pid}, #{id}, 
+			#{icon})
+	</insert>
+	
+	<delete id="delFunction" parameterType="Long"> 
+		DELETE FROM sys_fun WHERE fid = #{fid}
+	</delete>
+	
+	<insert id="addZtree" parameterType="com.yuyoukj.sys.model.Function"
+		useGeneratedKeys="true" keyProperty="fid"> 
+		INSERT INTO sys_fun (sname, createby, createdate, pid,
+			pids, id, slevel, icon) 
+		VALUES (#{sname}, #{createby}, #{createdate}, #{pid},
+			#{pids}, #{id}, #{slevel}, #{icon})
+	</insert>
+	
+	<update id="renameZtree" parameterType="com.yuyoukj.sys.model.Function"> 
+		UPDATE sys_fun a SET a.sname = #{sname} WHERE a.id = #{id}
+	</update>
+	
+	<delete id="removeZtree" parameterType="String"> 
+		DELETE FROM sys_fun WHERE pids LIKE CONCAT('%',',',${value},',','%')
+	</delete>
+	
+	<resultMap id="functionSimpleResult" type="com.yuyoukj.sys.model.FunctionSimple">
+		<result property="id" column="id" />
+		<result property="pId" column="pId" />
+		<result property="name" column="name" />
+		<result property="checked" column="checked" />
+		<result property="open" column="open" />
+	</resultMap>
+	
+	<select id="getFunctionSimpleList" parameterType="java.util.HashMap"
+		resultMap="functionSimpleResult">
+		SELECT a.id, a.pid as pId, a.sname as name, 
+			'true' AS checked, 'true' AS OPEN 
+		FROM sys_fun a 
+		WHERE 1 = 1 
+			AND a.isshow = 1
+			<if test="sname != null"> 
+				AND a.sname LIKE CONCAT('%','${sname}','%')
+			</if>
+		ORDER BY orderby
+	</select>
+	
+	<delete id="delInterFunRole" parameterType="java.util.HashMap"> 
+		DELETE FROM inter_fun_role WHERE fid = #{fid}
+	</delete>
+</mapper>

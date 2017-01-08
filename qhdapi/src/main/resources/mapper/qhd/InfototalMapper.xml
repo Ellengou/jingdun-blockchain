@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.InfototalMapper">
+
+	<resultMap id="InfototalResult" type="com.yuyoukj.model.qhd.Infototal">
+		<result property="totalid" column="totalid"/>
+		<result property="stype" column="stype"/>
+		<result property="askdate" column="askdate"/>
+		<result property="paydate" column="paydate"/>
+		<result property="sflag" column="sflag"/>
+		<result property="tradeno" column="tradeno"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM info_total a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="totalid !=null">
+				AND a.totalid != #{totalid}
+			</if>
+	</select>
+
+	<select id="getInfototal" parameterType="java.util.HashMap" resultMap="InfototalResult">
+		SELECT
+			a.totalid,
+			a.stype,
+			a.askdate,
+			a.paydate,
+			a.sflag,
+			a.tradeno,
+			a.createdate,
+			a.updatedate
+		FROM info_total a
+		WHERE a.totalid = #{totalid}
+	</select>
+
+	<select id="getInfototalList" parameterType="java.util.HashMap" resultMap="InfototalResult">
+		SELECT
+			a.totalid,
+			a.stype,
+			a.askdate,
+			a.paydate,
+			a.sflag,
+			a.tradeno,
+			a.createdate,
+			a.updatedate
+		FROM info_total a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateInfototal" parameterType="com.yuyoukj.model.qhd.Infototal">
+       UPDATE info_total a
+            SET a.updatedate = #{updatedate}
+            <if test="stype != null">
+            	, a.stype = #{stype}
+            </if>
+            <if test="askdate != null">
+            	, a.askdate = #{askdate}
+            </if>
+            <if test="paydate != null">
+            	, a.paydate = #{paydate}
+            </if>
+            <if test="sflag != null">
+            	, a.sflag = #{sflag}
+            </if>
+            <if test="tradeno != null">
+            	, a.tradeno = #{tradeno}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.totalid = #{totalid}
+	</update>
+	
+	<update id="updateInfototal_map" parameterType="java.util.HashMap">
+       UPDATE info_total a
+            SET a.updatedate = #{updatedate}
+            <if test="stype != null">
+            	, a.stype = #{stype}
+            </if>
+            <if test="askdate != null">
+            	, a.askdate = #{askdate}
+            </if>
+            <if test="paydate != null">
+            	, a.paydate = #{paydate}
+            </if>
+            <if test="sflag != null">
+            	, a.sflag = #{sflag}
+            </if>
+            <if test="tradeno != null">
+            	, a.tradeno = #{tradeno}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.totalid = #{totalid}
+	</update>
+
+	<insert id="saveInfototal" parameterType="com.yuyoukj.model.qhd.Infototal" useGeneratedKeys="true" keyProperty="totalid">
+		INSERT INTO info_total
+            (
+				stype,
+				askdate,
+				paydate,
+				sflag,
+				tradeno,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{stype},
+				#{askdate},
+				#{paydate},
+				#{sflag},
+				#{tradeno},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delInfototal" parameterType="java.util.HashMap">
+		DELETE FROM info_total WHERE totalid = #{totalid}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

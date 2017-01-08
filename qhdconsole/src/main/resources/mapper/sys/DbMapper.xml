@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.sys.mapper.DbMapper">
+
+	<resultMap id="DatabasesResult" type="com.yuyoukj.sys.model.Dbs">
+		<result property="dbname" column="Database" />
+	</resultMap>
+
+	<select id="getDbList" resultMap="DatabasesResult">
+		SHOW DATABASES
+	</select>
+
+	<resultMap id="DbTablesResult" type="com.yuyoukj.sys.model.DbTables">
+		<result property="tablename" column="TABLE_NAME" />
+		<result property="tablecomment" column="TABLE_COMMENT" />
+	</resultMap>
+
+	<select id="getDbTablesList" parameterType="java.util.HashMap"
+		resultMap="DbTablesResult">
+		SELECT a.TABLE_NAME, a.TABLE_COMMENT 
+		FROM INFORMATION_SCHEMA.TABLES a
+		WHERE a.TABLE_SCHEMA = #{dbname}
+	</select>
+
+	<select id="getDbTables" parameterType="java.util.HashMap"
+		resultMap="DbTablesResult">
+		SELECT a.TABLE_NAME, a.TABLE_COMMENT
+		FROM INFORMATION_SCHEMA.TABLES a
+		WHERE a.TABLE_SCHEMA = #{dbname}
+			<if test="tablename != null">
+				AND a.TABLE_NAME = #{tablename}
+			</if>
+	</select>
+
+	<resultMap id="DbTbColumnsResult" type="com.yuyoukj.sys.model.DbTbColumns">
+		<result property="columnname" column="COLUMN_NAME" />
+		<result property="ucolumnname" column="UCOLUMN_NAME" />
+		<result property="datatype" column="DATA_TYPE" />
+		<result property="columncomment" column="COLUMN_COMMENT" />
+		<result property="pkkey" column="pkkey" />
+		<result property="maxlen" column="maxlen" />
+	</resultMap>
+
+	<select id="getDbTableColumnList" parameterType="java.util.HashMap"
+		resultMap="DbTbColumnsResult">
+		SELECT LCASE(a.column_name) AS column_name,
+			CONCAT(UCASE(LEFT(LCASE(a.column_name),1)),SUBSTR(LCASE(a.column_name),2))
+			AS ucolumn_name,
+			CASE a.data_type WHEN 'varchar' THEN 'String'
+				WHEN 'text' THEN 'String'
+				WHEN 'int' THEN 'Integer'
+				WHEN 'bigint' THEN 'Long'
+				WHEN 'float' THEN 'Double'
+				WHEN 'decimal' THEN 'java.math.BigDecimal'
+				ELSE 'UNKOWNTYPE' END AS data_type,
+			IF((a.column_comment IS NULL),'???',a.column_comment) as column_comment,
+			IF((a.column_key = 'PRI'), 1, 0) AS pkkey,
+			IF((a.CHARACTER_MAXIMUM_LENGTH IS NULL), 20, a.CHARACTER_MAXIMUM_LENGTH) AS maxlen
+		FROM information_schema.columns a
+		WHERE a.table_name = #{tablename}
+			AND a.TABLE_SCHEMA= #{dbname}
+		ORDER BY pkkey DESC
+	</select>
+
+</mapper>

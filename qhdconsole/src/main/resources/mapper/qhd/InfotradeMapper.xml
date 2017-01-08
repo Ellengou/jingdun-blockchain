@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.InfotradeMapper">
+
+	<resultMap id="InfotradeResult" type="com.yuyoukj.model.qhd.Infotrade">
+		<result property="tradeid" column="tradeid"/>
+		<result property="itemids" column="itemids"/>
+		<result property="userids" column="userids"/>
+		<result property="buyuserid" column="buyuserid"/>
+		<result property="paydate" column="paydate"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+		<result property="sstatus" column="sstatus"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM info_trade a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="tradeid !=null">
+				AND a.tradeid != #{tradeid}
+			</if>
+	</select>
+
+	<select id="getInfotrade" parameterType="java.util.HashMap" resultMap="InfotradeResult">
+		SELECT
+			b.username as buyusername,
+			a.tradeid,
+			a.itemids,
+			a.userids,
+			a.buyuserid,
+			a.paydate,
+			a.createdate,
+			a.updatedate,
+			a.cost,
+			a.totalcost,
+			a.failure_msg,
+			a.failuredate,
+			a.transfer,
+			a.sstatus
+		FROM info_trade a
+		LEFT JOIN info_user b ON b.userid=a.buyuserid 
+		WHERE 1 = 1
+			<if test="tradeid != null">
+				AND a.tradeid = #{tradeid}
+			</if>
+	</select>
+
+	<select id="getInfotradeList" parameterType="java.util.HashMap" resultMap="InfotradeResult">
+		SELECT
+			b.username as buyusername,
+			a.tradeid,
+			a.itemids,
+			a.userids,
+			a.buyuserid,
+			a.paydate,
+			a.createdate,
+			a.updatedate,
+			a.cost,
+			a.totalcost,
+			a.failure_msg,
+			a.failuredate,
+			a.transfer,
+			a.sstatus
+		FROM info_trade a
+		LEFT JOIN info_user b ON b.userid=a.buyuserid
+		WHERE 1 = 1
+			<if test="buyusername != null"> <!-- 根据实际参数调整 -->
+				AND b.username like CONCAT('%','${buyusername}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateInfotrade" parameterType="com.yuyoukj.model.qhd.Infotrade">
+       UPDATE info_trade a
+            SET a.updatedate = #{updatedate}
+            <if test="itemids != null">
+            	, a.itemids = #{itemids}
+            </if>
+            <if test="userids != null">
+            	, a.userids = #{userids}
+            </if>
+            <if test="buyuserid != null">
+            	, a.buyuserid = #{buyuserid}
+            </if>
+            <if test="paydate != null">
+            	, a.paydate = #{paydate}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+            <if test="cost != null">
+            	, a.cost = #{cost}
+            </if>
+            <if test="totalcost != null">
+            	, a.totalcost = #{totalcost}
+            </if>
+            <if test="failure_msg != null">
+            	, a.failure_msg = #{failure_msg}
+            </if>
+            <if test="failuredate != null">
+            	, a.failuredate = #{failuredate}
+            </if>
+            <if test="transfer != null">
+            	, a.transfer = #{transfer}
+            </if>
+            <if test="sstatus != null">
+            	, a.sstatus = #{sstatus}
+            </if>
+         WHERE a.tradeid = #{tradeid}
+	</update>
+	
+	<update id="updateInfotrade_map" parameterType="java.util.HashMap">
+       UPDATE info_trade a
+            SET a.updatedate = #{updatedate}
+            <if test="itemids != null">
+            	, a.itemids = #{itemids}
+            </if>
+            <if test="userids != null">
+            	, a.userids = #{userids}
+            </if>
+            <if test="buyuserid != null">
+            	, a.buyuserid = #{buyuserid}
+            </if>
+            <if test="paydate != null">
+            	, a.paydate = #{paydate}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+            <if test="cost != null">
+            	, a.cost = #{cost}
+            </if>
+            <if test="totalcost != null">
+            	, a.totalcost = #{totalcost}
+            </if>
+            <if test="failure_msg != null">
+            	, a.failure_msg = #{failure_msg}
+            </if>
+            <if test="failuredate != null">
+            	, a.failuredate = #{failuredate}
+            </if>
+            <if test="transfer != null">
+            	, a.transfer = #{transfer}
+            </if>
+            <if test="sstatus != null">
+            	, a.sstatus = #{sstatus}
+            </if>
+         WHERE a.tradeid = #{tradeid}
+	</update>
+
+	<insert id="saveInfotrade" parameterType="com.yuyoukj.model.qhd.Infotrade" useGeneratedKeys="true" keyProperty="tradeid">
+		INSERT INTO info_trade
+            (
+				itemids,
+				userids,
+				buyuserid,
+				paydate,
+				createdate,
+				updatedate,
+				cost,
+				totalcost,
+				failure_msg,
+				failuredate,
+				transfer,
+				sstatus
+			)
+        VALUES
+            (
+				#{itemids},
+				#{userids},
+				#{buyuserid},
+				#{paydate},
+				#{createdate},
+				#{updatedate},
+				#{cost},
+				#{totalcost},
+				#{failure_msg},
+				#{failuredate},
+				#{transfer},
+				#{sstatus}
+			)
+	</insert>
+
+	<delete id="delInfotrade" parameterType="java.util.HashMap">
+		DELETE FROM info_trade WHERE tradeid = #{tradeid}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

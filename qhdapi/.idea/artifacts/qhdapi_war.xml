@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="qhdapi:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="qhdapi-2.0.2.war">
+      <element id="artifact" artifact-name="qhdapi:war exploded" />
+    </root>
+  </artifact>
+</component>

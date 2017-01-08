@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.ConfconfigMapper">
+
+	<resultMap id="ConfconfigResult" type="com.yuyoukj.model.qhd.Confconfig">
+		<result property="seq" column="seq"/>
+		<result property="ckey" column="ckey"/>
+		<result property="cvalue" column="cvalue"/>
+		<result property="ctbname" column="ctbname"/>
+		<result property="cfield" column="cfield"/>
+		<result property="cflag" column="cflag"/>
+		<result property="remark" column="remark"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM conf_config a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="seq !=null">
+				AND a.seq != #{seq}
+			</if>
+	</select>
+
+	<select id="getConfconfig" parameterType="java.util.HashMap" resultMap="ConfconfigResult">
+		SELECT
+			a.seq,
+			a.ckey,
+			a.cvalue,
+			a.ctbname,
+			a.cfield,
+			a.cflag,
+			a.remark,
+			a.createdate,
+			a.updatedate
+		FROM conf_config a
+		WHERE 1 = 1
+			<if test="seq != null">
+				AND a.seq = #{seq}
+			</if>
+			<if test="ckey != null">
+				AND a.ckey = #{ckey}
+			</if>
+			<if test="cvalue != null">
+				AND a.cvalue = #{cvalue}
+			</if>
+			<if test="ctbname != null">
+				AND a.ctbname = #{ctbname}
+			</if>
+			<if test="cfield != null">
+				AND a.cfield = #{cfield}
+			</if>
+	</select>
+
+	<select id="getConfconfigList" parameterType="java.util.HashMap" resultMap="ConfconfigResult">
+		SELECT
+			a.seq,
+			a.ckey,
+			a.cvalue,
+			a.ctbname,
+			a.cfield,
+			a.cflag,
+			a.remark,
+			a.createdate,
+			a.updatedate
+		FROM conf_config a
+		WHERE 1 = 1
+			<if test="seq != null">
+				AND a.seq = #{seq}
+			</if>
+			<if test="ckey != null">
+				AND a.ckey = #{ckey}
+			</if>
+			<if test="cvalue != null">
+				AND a.cvalue = #{cvalue}
+			</if>
+			<if test="ctbname != null">
+				AND a.ctbname = #{ctbname}
+			</if>
+			<if test="cfield != null">
+				AND a.cfield = #{cfield}
+			</if>
+	</select>
+
+	<update id="updateConfconfig" parameterType="com.yuyoukj.model.qhd.Confconfig">
+       UPDATE conf_config a
+            SET a.updatedate = #{updatedate}
+            <if test="ckey != null">
+            	, a.ckey = #{ckey}
+            </if>
+            <if test="cvalue != null">
+            	, a.cvalue = #{cvalue}
+            </if>
+            <if test="ctbname != null">
+            	, a.ctbname = #{ctbname}
+            </if>
+            <if test="cfield != null">
+            	, a.cfield = #{cfield}
+            </if>
+            <if test="cflag != null">
+            	, a.cflag = #{cflag}
+            </if>
+            <if test="remark != null">
+            	, a.remark = #{remark}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+	
+	<update id="updateConfconfig_map" parameterType="java.util.HashMap">
+       UPDATE conf_config a
+            SET a.updatedate = #{updatedate}
+            <if test="ckey != null">
+            	, a.ckey = #{ckey}
+            </if>
+            <if test="cvalue != null">
+            	, a.cvalue = #{cvalue}
+            </if>
+            <if test="ctbname != null">
+            	, a.ctbname = #{ctbname}
+            </if>
+            <if test="cfield != null">
+            	, a.cfield = #{cfield}
+            </if>
+            <if test="cflag != null">
+            	, a.cflag = #{cflag}
+            </if>
+            <if test="remark != null">
+            	, a.remark = #{remark}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+
+	<insert id="saveConfconfig" parameterType="com.yuyoukj.model.qhd.Confconfig" useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO conf_config
+            (
+				ckey,
+				cvalue,
+				ctbname,
+				cfield,
+				cflag,
+				remark,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{ckey},
+				#{cvalue},
+				#{ctbname},
+				#{cfield},
+				#{cflag},
+				#{remark},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delConfconfig" parameterType="java.util.HashMap">
+		DELETE FROM conf_config WHERE seq = #{seq}
+	</delete>
+
+	<delete id="delConfconfig_map" parameterType="java.util.HashMap">
+		DELETE FROM conf_config WHERE sdate = #{sdate}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

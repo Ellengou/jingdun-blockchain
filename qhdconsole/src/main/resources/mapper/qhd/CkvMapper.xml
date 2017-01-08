@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.CkvMapper">
+
+	<resultMap id="CkvResult" type="com.yuyoukj.model.qhd.Ckv">
+		<result property="seq" column="seq" />
+		<result property="ck" column="ck" />
+		<result property="cv" column="cv" />
+	</resultMap>
+
+	<select id="getCkvList" parameterType="java.util.HashMap" resultMap="CkvResult">
+		SELECT ckey as ck, cvalue as cv
+		FROM conf_config
+		WHERE 1 = 1
+			<if test="cfield != null">
+				AND cfield = #{cfield}
+			</if>
+	</select>
+	
+	<select id="getCkv" parameterType="java.util.HashMap" resultMap="CkvResult">
+		SELECT ckey as ck, cvalue as cv, seq
+		FROM conf_config
+		WHERE 1 = 1
+			<if test="seq != null">
+				AND seq = #{seq}
+			</if>
+			<if test="cfield != null">
+				AND cfield = #{cfield}
+			</if>
+	</select>
+	
+	<select id="getCvalue" parameterType="java.util.HashMap" resultType="String">
+		SELECT cvalue as cv
+		FROM conf_config
+		WHERE 1 = 1
+			<if test="ckey != null">
+				AND ckey = #{ckey}
+			</if>
+			<if test="cfield != null">
+				AND cfield = #{cfield}
+			</if>
+	</select>
+	
+	<select id="getProvinceList" parameterType="java.util.HashMap" resultMap="CkvResult">
+		SELECT provinceid as ck, provincename as cv
+		FROM conf_province
+		WHERE 1 = 1
+			<if test="provinceid != null">
+				AND provinceid = #{provinceid}
+			</if>
+	</select>
+	
+	<select id="getAddressList" parameterType="java.util.HashMap" resultMap="CkvResult">
+		<if test="type == 2">
+		SELECT cityid as ck, cityname as cv
+			FROM conf_city
+		</if>
+		<if test="type == 3">
+		SELECT areaid as ck, areaname as cv
+			FROM conf_area
+		</if>
+		WHERE fatherid = #{fatherid}
+	</select>
+	
+	<select id="getAddress" parameterType="java.util.HashMap" resultMap="CkvResult">
+		<if test="type == 1">
+		SELECT provinceid as ck, provincename as cv
+			FROM conf_province
+		</if>
+		<if test="type == 2">
+		SELECT cityid as ck, cityname as cv
+			FROM conf_city
+		</if>
+		<if test="type == 3">
+		SELECT areaid as ck, areaname as cv
+			FROM conf_area
+		</if>
+		WHERE 1 = 1
+			<if test="provinceid != null">
+				AND provinceid = #{provinceid}
+			</if>
+			<if test="cityid != null">
+				AND cityid = #{cityid}
+			</if>
+			<if test="areaid != null">
+				AND areaid = #{areaid}
+			</if>
+	</select>
+	
+	<select id="getSearchList" parameterType="java.util.HashMap" resultMap="CkvResult">
+		<if test="stype == 1 || stype == 2 || stype == 3">
+			SELECT a.id as ck, b.sname as cv
+			FROM info_orderitem a
+			<if test="stype == 1">
+			LEFT JOIN info_item b ON b.itemid = a.id
+			</if>
+			<if test="stype == 2">
+			LEFT JOIN info_shop b ON b.shopid = a.id
+			</if>
+			<if test="stype == 3">
+			LEFT JOIN info_train b ON b.trainid = a.id
+			</if>
+			WHERE a.stype = #{stype}
+			GROUP BY a.id
+			ORDER BY count(1) DESC
+		</if>
+		<if test="stype == 4">
+			SELECT a.packageid as ck, a.sname as cv
+			FROM info_package a
+			ORDER BY a.updatedate DESC
+		</if>
+		<if test="stype == 5">
+			SELECT a.groupid as ck, a.sname as cv
+			FROM info_group a
+			ORDER BY a.updatedate DESC
+		</if>
+		<if test="stype == 6">
+			SELECT a.archiveid as ck, a.title as cv
+			FROM info_archive a
+			ORDER BY a.updatedate DESC
+		</if>
+		<if test="stype == 7">
+			SELECT a.newsid as ck, a.title as cv
+			FROM info_news a
+			ORDER BY a.updatedate DESC
+		</if>
+		limit 0, 5
+	</select>
+</mapper>

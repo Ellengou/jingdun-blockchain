@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.1.xsd"
+	default-lazy-init="false">
+	<bean id="api" class="com.yuyoukj.interservice.inter.ApiServiceImpl"
+		scope="singleton" />
+	<bean id="commonservice" class="com.yuyoukj.service.impl.CommonServiceImpl"
+		scope="singleton" init-method="init">
+		<property name="validateMethodMap">
+			<map>
+				<entry key="api.scodeget" value="api.scodeget" />
+				<entry key="api.register" value="api.register" />
+				<entry key="api.login" value="api.login" />
+				<entry key="api.exit" value="api.exit" />
+				<entry key="api.passwordreset" value="api.passwordreset" />
+				<entry key="api.userview" value="api.userview" />
+				<entry key="api.iconupload" value="api.iconupload" />
+				<entry key="api.userperfect" value="api.userperfect" />
+				<entry key="api.itemlist" value="api.itemlist" />
+				<entry key="api.itemadd" value="api.itemadd" />
+				<entry key="api.itemdel" value="api.itemdel" />
+				<entry key="api.orderadd" value="api.orderadd" />
+				<entry key="api.orderpay" value="api.orderpay" />
+				<entry key="api.sysrecom" value="api.sysrecom" />
+				<entry key="api.pingwebhooks" value="api.pingwebhooks" />
+			</map>
+		</property>
+		<property name="specParam">
+			<map>
+				<entry key="pagesize" value="pagesize" />
+			</map>
+		</property>
+		<property name="encodeParam">
+			<map>
+				<entry key="appkey" value="appkey" />
+				<entry key="appsig" value="appsig" />
+				<entry key="token" value="token" />
+				<entry key="pagenum" value="pagenum" />
+				<!--  -->
+				<entry key="username" value="username" />
+				<entry key="scode" value="scode" />
+				<entry key="password" value="password" />
+				<entry key="viewuserid" value="viewuserid" />
+				<entry key="nickname" value="nickname" />
+				<entry key="paypalnum" value="paypalnum" />
+				<entry key="paypalname" value="paypalname" />
+				<entry key="alipaynum" value="alipaynum" />
+				<entry key="alipayname" value="alipayname" />
+				<entry key="sflag" value="sflag" />
+				<entry key="keyword" value="keyword" />
+				<entry key="stype" value="stype" />
+				<entry key="money" value="money" />
+				<entry key="itemid" value="itemid" />
+				<entry key="itemids" value="itemids" />
+				<entry key="payorder" value="payorder" />
+				<entry key="paypalid" value="paypalid" />
+			</map>
+		</property>
+		<property name="notValidateTokenMethodMap">
+			<map>
+				<entry key="api.scodeget" value="api.scodeget" />
+				<entry key="api.register" value="api.register" />
+				<entry key="api.login" value="api.login" />
+				<entry key="api.userview" value="api.userview" />
+				<entry key="api.itemlist" value="api.itemlist" />
+				<entry key="api.passwordreset" value="api.passwordreset" />
+				<entry key="api.pingwebhooks" value="api.pingwebhooks" />
+			</map>
+		</property>
+		<property name="notValidateAppSigMethodMap">
+			<map>
+				<!-- entry key="api.register" value="api.register"/ -->
+				<entry key="api.pingwebhooks" value="api.pingwebhooks" />
+			</map>
+		</property>
+		<!-- 
+		<property name="validateDeviceMethodMap">
+			<map>
+				<entry key="advert.getConfig" value="advert.getConfig" />
+			</map>
+		</property>
+		-->
+		<property name="notAppsigParamMap">
+			<map>
+				<entry key="appsig" value="appsig" />
+			</map>
+		</property>
+		<!-- 
+		<property name="properties">
+			<map>
+				<entry key="callbackUrl" value="http://www.ibrxy.com/osm-ads/osmads" />
+			</map>
+		</property>
+		-->
+	</bean>
+	<!--  
+	<bean id="memcacheServer" class="com.yuyoukj.util.MemCacheUtil" scope="singleton">
+		<constructor-arg index="0">
+			<list>
+				<value>${memcached.url}</value>
+			</list>
+		</constructor-arg>
+		<constructor-arg index="1">
+			<list>
+				<value>5</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	-->
+	<bean id="quartzService" class="com.yuyoukj.service.impl.QuartzServiceImpl"
+		scope="singleton" />
+	<!-- 更新汇率 -->
+	<bean id="task_updateratio"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="updateratio" />
+	</bean>
+	<bean id="Proxy_task_updateratio" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="task_updateratio" />
+		<property name="cronExpression" value="0/120 * * ? * * *" />
+		<!-- 
+		<property name="cronExpression" value="0/10 * * ? * * *" />
+		<property name="cronExpression" value="0 5 0 ? * * *" />
+		<property name="cronExpression" value="0 5 1 * * ?" />
+		-->
+	</bean>
+	<!-- 处理T day需求 -->
+	<bean id="task_tdayinfoitem"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="tdayinfoitem" />
+	</bean>
+	<bean id="Proxy_task_tdayinfoitem" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="task_tdayinfoitem" />
+		<property name="cronExpression" value="0 0/30 * * * ?" />
+		<!-- 
+		<property name="cronExpression" value="0/10 * * ? * * *" />
+		-->
+	</bean>
+	<bean id="task_nopayinfotrader"
+		class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="quartzService" />
+		<property name="targetMethod" value="nopayinfotrader" />
+	</bean>
+	<bean id="Proxy_task_nopayinfotrader" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="task_nopayinfotrader" />
+		<property name="cronExpression" value="0 0/5 * * * ?" />
+		<!-- 
+		<property name="cronExpression" value="0/10 * * ? * * *" />
+		-->
+	</bean>
+	<bean id="startQuartz" lazy-init="false" autowire="no"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+				<ref local="Proxy_task_updateratio" />
+				<ref local="Proxy_task_tdayinfoitem" />
+				<ref local="Proxy_task_nopayinfotrader" />
+			</list>
+		</property>
+	</bean>
+</beans>

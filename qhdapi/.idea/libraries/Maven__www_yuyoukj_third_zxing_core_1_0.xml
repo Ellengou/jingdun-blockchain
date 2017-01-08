@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: www.yuyoukj.third:zxing-core:1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../../repo/www/yuyoukj/third/zxing-core/1.0/zxing-core-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../../repo/www/yuyoukj/third/zxing-core/1.0/zxing-core-1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../../repo/www/yuyoukj/third/zxing-core/1.0/zxing-core-1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
