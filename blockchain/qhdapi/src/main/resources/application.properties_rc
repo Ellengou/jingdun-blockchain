@@ -1,0 +1,13 @@
+#MySQL
+datasource_qhd.driverClassName=com.mysql.jdbc.Driver
+datasource_qhd.url=jdbc:mysql://127.0.0.1:3306/qhd?useUnicode=true&characterEncoding=utf-8
+datasource_qhd.userName=root
+datasource_qhd.password=123456
+datasource_qhd.validationQuery=select 1
+datasource_qhd.testWhileIdle=true
+datasource_qhd.maxActive=40
+datasource_qhd.timeBetweenEvictionRunsMillis=600000
+datasource_qhd.minEvictableIdleTimeMillis=600000
+
+#memcached
+#memcached.url=192.168.0.150:11211

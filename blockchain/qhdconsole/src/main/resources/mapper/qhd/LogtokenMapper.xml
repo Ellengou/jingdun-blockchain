@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.LogtokenMapper">
+
+	<resultMap id="LogtokenResult" type="com.yuyoukj.model.qhd.Logtoken">
+		<result property="seq" column="seq"/>
+		<result property="token" column="token"/>
+		<result property="userid" column="userid"/>
+		<result property="sflag" column="sflag"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM log_token a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="seq !=null">
+				AND a.seq != #{seq}
+			</if>
+	</select>
+
+	<select id="getLogtoken" parameterType="java.util.HashMap" resultMap="LogtokenResult">
+		SELECT
+			a.seq,
+			a.token,
+			a.userid,
+			a.sflag,
+			a.createdate,
+			a.updatedate
+		FROM log_token a
+		WHERE 1 = 1
+			<if test="seq != null">
+				AND a.seq = #{seq}
+			</if>
+	</select>
+
+	<select id="getLogtokenList" parameterType="java.util.HashMap" resultMap="LogtokenResult">
+		SELECT
+			a.seq,
+			a.token,
+			a.userid,
+			a.sflag,
+			a.createdate,
+			a.updatedate
+		FROM log_token a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateLogtoken" parameterType="com.yuyoukj.model.qhd.Logtoken">
+       UPDATE log_token a
+            SET a.updatedate = #{updatedate}
+            <if test="token != null">
+            	, a.token = #{token}
+            </if>
+            <if test="userid != null">
+            	, a.userid = #{userid}
+            </if>
+            <if test="sflag != null">
+            	, a.sflag = #{sflag}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+	
+	<update id="updateLogtoken_map" parameterType="java.util.HashMap">
+       UPDATE log_token a
+            SET a.updatedate = #{updatedate}
+            <if test="token != null">
+            	, a.token = #{token}
+            </if>
+            <if test="userid != null">
+            	, a.userid = #{userid}
+            </if>
+            <if test="sflag != null">
+            	, a.sflag = #{sflag}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+
+	<insert id="saveLogtoken" parameterType="com.yuyoukj.model.qhd.Logtoken" useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO log_token
+            (
+				token,
+				userid,
+				sflag,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{token},
+				#{userid},
+				#{sflag},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delLogtoken" parameterType="java.util.HashMap">
+		DELETE FROM log_token WHERE seq = #{seq}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.LogpasswdMapper">
+
+	<resultMap id="LogpasswdResult" type="com.yuyoukj.model.qhd.Logpasswd">
+		<result property="seq" column="seq"/>
+		<result property="username" column="username"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM log_passwd a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="seq !=null">
+				AND a.seq != #{seq}
+			</if>
+	</select>
+
+	<select id="getLogpasswd" parameterType="java.util.HashMap" resultMap="LogpasswdResult">
+		SELECT
+			a.seq,
+			a.username,
+			a.createdate,
+			a.updatedate
+		FROM log_passwd a
+		WHERE a.seq = #{seq}
+	</select>
+
+	<select id="getLogpasswdList" parameterType="java.util.HashMap" resultMap="LogpasswdResult">
+		SELECT
+			a.seq,
+			a.username,
+			a.createdate,
+			a.updatedate
+		FROM log_passwd a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateLogpasswd" parameterType="com.yuyoukj.model.qhd.Logpasswd">
+       UPDATE log_passwd a
+            SET a.updatedate = #{updatedate}
+            <if test="username != null">
+            	, a.username = #{username}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+	
+	<update id="updateLogpasswd_map" parameterType="java.util.HashMap">
+       UPDATE log_passwd a
+            SET a.updatedate = #{updatedate}
+            <if test="username != null">
+            	, a.username = #{username}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+
+	<insert id="saveLogpasswd" parameterType="com.yuyoukj.model.qhd.Logpasswd" useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO log_passwd
+            (
+				username,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{username},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delLogpasswd" parameterType="java.util.HashMap">
+		DELETE FROM log_passwd WHERE seq = #{seq}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

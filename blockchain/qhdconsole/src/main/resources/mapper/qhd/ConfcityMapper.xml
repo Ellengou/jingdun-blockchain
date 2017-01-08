@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.ConfcityMapper">
+
+	<resultMap id="ConfcityResult" type="com.yuyoukj.model.qhd.Confcity">
+		<result property="id" column="id"/>
+		<result property="cityid" column="cityid"/>
+		<result property="cityname" column="cityname"/>
+		<result property="fatherid" column="fatherid"/>
+		<result property="orderby" column="orderby"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM conf_city a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="id !=null">
+				AND a.id != #{id}
+			</if>
+	</select>
+
+	<select id="getConfcity" parameterType="java.util.HashMap" resultMap="ConfcityResult">
+		SELECT
+			a.id,
+			a.cityid,
+			a.cityname,
+			a.fatherid,
+			a.orderby
+		FROM conf_city a
+		WHERE 1 = 1
+			<if test="id != null">
+				AND a.id = #{id}
+			</if>
+	</select>
+
+	<select id="getConfcityList" parameterType="java.util.HashMap" resultMap="ConfcityResult">
+		SELECT
+			a.id,
+			a.cityid,
+			a.cityname,
+			a.fatherid,
+			a.orderby
+		FROM conf_city a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateConfcity" parameterType="com.yuyoukj.model.qhd.Confcity">
+       UPDATE conf_city a
+            SET a.updatedate = #{updatedate}
+            <if test="cityid != null">
+            	, a.cityid = #{cityid}
+            </if>
+            <if test="cityname != null">
+            	, a.cityname = #{cityname}
+            </if>
+            <if test="fatherid != null">
+            	, a.fatherid = #{fatherid}
+            </if>
+            <if test="orderby != null">
+            	, a.orderby = #{orderby}
+            </if>
+         WHERE a.id = #{id}
+	</update>
+	
+	<update id="updateConfcity_map" parameterType="java.util.HashMap">
+       UPDATE conf_city a
+            SET a.updatedate = #{updatedate}
+            <if test="cityid != null">
+            	, a.cityid = #{cityid}
+            </if>
+            <if test="cityname != null">
+            	, a.cityname = #{cityname}
+            </if>
+            <if test="fatherid != null">
+            	, a.fatherid = #{fatherid}
+            </if>
+            <if test="orderby != null">
+            	, a.orderby = #{orderby}
+            </if>
+         WHERE a.id = #{id}
+	</update>
+
+	<insert id="saveConfcity" parameterType="com.yuyoukj.model.qhd.Confcity" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO conf_city
+            (
+				cityid,
+				cityname,
+				fatherid,
+				orderby
+			)
+        VALUES
+            (
+				#{cityid},
+				#{cityname},
+				#{fatherid},
+				#{orderby}
+			)
+	</insert>
+
+	<delete id="delConfcity" parameterType="java.util.HashMap">
+		DELETE FROM conf_city WHERE id = #{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.LogscodeMapper">
+
+	<resultMap id="LogscodeResult" type="com.yuyoukj.model.qhd.Logscode">
+		<result property="seq" column="seq"/>
+		<result property="username" column="username"/>
+		<result property="scode" column="scode"/>
+		<result property="sflag" column="sflag"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM log_scode a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="seq !=null">
+				AND a.seq != #{seq}
+			</if>
+	</select>
+
+	<select id="getLogscode" parameterType="java.util.HashMap" resultMap="LogscodeResult">
+		SELECT
+			a.seq,
+			a.username,
+			a.scode,
+			a.sflag,
+			a.createdate,
+			a.updatedate
+		FROM log_scode a
+		WHERE 1 = 1
+			<if test="seq != null">
+				AND a.seq = #{seq}
+			</if>
+	</select>
+
+	<select id="getLogscodeList" parameterType="java.util.HashMap" resultMap="LogscodeResult">
+		SELECT
+			a.seq,
+			a.username,
+			a.scode,
+			a.sflag,
+			a.createdate,
+			a.updatedate
+		FROM log_scode a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateLogscode" parameterType="com.yuyoukj.model.qhd.Logscode">
+       UPDATE log_scode a
+            SET a.updatedate = #{updatedate}
+            <if test="username != null">
+            	, a.username = #{username}
+            </if>
+            <if test="scode != null">
+            	, a.scode = #{scode}
+            </if>
+            <if test="sflag != null">
+            	, a.sflag = #{sflag}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+	
+	<update id="updateLogscode_map" parameterType="java.util.HashMap">
+       UPDATE log_scode a
+            SET a.updatedate = #{updatedate}
+            <if test="username != null">
+            	, a.username = #{username}
+            </if>
+            <if test="scode != null">
+            	, a.scode = #{scode}
+            </if>
+            <if test="sflag != null">
+            	, a.sflag = #{sflag}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+
+	<insert id="saveLogscode" parameterType="com.yuyoukj.model.qhd.Logscode" useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO log_scode
+            (
+				username,
+				scode,
+				sflag,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{username},
+				#{scode},
+				#{sflag},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delLogscode" parameterType="java.util.HashMap">
+		DELETE FROM log_scode WHERE seq = #{seq}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

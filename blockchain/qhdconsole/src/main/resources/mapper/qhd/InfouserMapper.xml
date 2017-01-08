@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.InfouserMapper">
+
+	<resultMap id="InfouserResult" type="com.yuyoukj.model.qhd.Infouser">
+		<result property="userid" column="userid"/>
+		<result property="username" column="username"/>
+		<result property="password" column="password"/>
+		<result property="nickname" column="nickname"/>
+		<result property="icon" column="icon"/>
+		<result property="iconid" column="iconid"/>
+		<result property="registerdate" column="registerdate"/>
+		<result property="payconfig" column="payconfig"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM info_user a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="userid !=null">
+				AND a.userid != #{userid}
+			</if>
+	</select>
+
+	<select id="getInfouser" parameterType="java.util.HashMap" resultMap="InfouserResult">
+		SELECT
+			a.userid,
+			a.username,
+			a.password,
+			a.nickname,
+			a.icon,
+			a.iconid,
+			left(from_unixtime(a.registerdate/1000),19) as registerdate,
+			a.payconfig,
+			a.createdate,
+			a.updatedate
+		FROM info_user a
+		WHERE 1 = 1
+			<if test="userid != null">
+				AND a.userid = #{userid}
+			</if>
+	</select>
+
+	<select id="getInfouserList" parameterType="java.util.HashMap" resultMap="InfouserResult">
+		SELECT
+			a.userid,
+			a.username,
+			a.password,
+			a.nickname,
+			a.icon,
+			a.iconid,
+			left(from_unixtime(a.registerdate/1000),19) as registerdate,
+			a.payconfig,
+			a.createdate,
+			a.updatedate
+		FROM info_user a
+		WHERE 1 = 1
+			<if test="username != null"> <!-- 根据实际参数调整 -->
+				AND a.username like CONCAT('%','${username}','%') <!-- 根据实际参数调整 -->
+			</if>
+		ORDER BY a.registerdate DESC
+	</select>
+
+	<update id="updateInfouser" parameterType="com.yuyoukj.model.qhd.Infouser">
+       UPDATE info_user a
+            SET a.updatedate = #{updatedate}
+            <if test="username != null">
+            	, a.username = #{username}
+            </if>
+            <if test="password != null">
+            	, a.password = #{password}
+            </if>
+            <if test="nickname != null">
+            	, a.nickname = #{nickname}
+            </if>
+            <if test="icon != null">
+            	, a.icon = #{icon}
+            </if>
+            <if test="iconid != null">
+            	, a.iconid = #{iconid}
+            </if>
+            <if test="registerdate != null">
+            	, a.registerdate = #{registerdate}
+            </if>
+            <if test="payconfig != null">
+            	, a.payconfig = #{payconfig}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.userid = #{userid}
+	</update>
+	
+	<update id="updateInfouser_map" parameterType="java.util.HashMap">
+       UPDATE info_user a
+            SET a.updatedate = #{updatedate}
+            <if test="username != null">
+            	, a.username = #{username}
+            </if>
+            <if test="password != null">
+            	, a.password = #{password}
+            </if>
+            <if test="nickname != null">
+            	, a.nickname = #{nickname}
+            </if>
+            <if test="icon != null">
+            	, a.icon = #{icon}
+            </if>
+            <if test="iconid != null">
+            	, a.iconid = #{iconid}
+            </if>
+            <if test="registerdate != null">
+            	, a.registerdate = #{registerdate}
+            </if>
+            <if test="payconfig != null">
+            	, a.payconfig = #{payconfig}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.userid = #{userid}
+	</update>
+
+	<insert id="saveInfouser" parameterType="com.yuyoukj.model.qhd.Infouser" useGeneratedKeys="true" keyProperty="userid">
+		INSERT INTO info_user
+            (
+				username,
+				password,
+				nickname,
+				icon,
+				iconid,
+				registerdate,
+				payconfig,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{username},
+				#{password},
+				#{nickname},
+				#{icon},
+				#{iconid},
+				#{registerdate},
+				#{payconfig},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delInfouser" parameterType="java.util.HashMap">
+		DELETE FROM info_user WHERE userid = #{userid}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

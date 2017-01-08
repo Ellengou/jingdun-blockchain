@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.ConfratioMapper">
+
+	<resultMap id="ConfratioResult" type="com.yuyoukj.model.qhd.Confratio">
+		<result property="ratioid" column="ratioid"/>
+		<result property="sdate" column="sdate"/>
+		<result property="ratio" column="ratio"/>
+		<result property="stype" column="stype"/>
+		<result property="intype" column="intype"/>
+		<result property="sfrom" column="sfrom"/>
+		<result property="getdate" column="getdate"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM conf_ratio a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="ratioid !=null">
+				AND a.ratioid != #{ratioid}
+			</if>
+	</select>
+
+	<select id="getConfratio" parameterType="java.util.HashMap" resultMap="ConfratioResult">
+		SELECT
+			a.ratioid,
+			a.sdate,
+			a.ratio,
+			a.stype,
+			a.intype,
+			a.sfrom,
+			a.getdate,
+			a.createdate,
+			a.updatedate
+		FROM conf_ratio a
+		WHERE 1 = 1
+			<if test="ratioid != null">
+				AND a.ratioid = #{ratioid}
+			</if>
+	</select>
+
+	<select id="getConfratioList" parameterType="java.util.HashMap" resultMap="ConfratioResult">
+		SELECT
+			a.ratioid,
+			a.sdate,
+			a.ratio,
+			a.stype,
+			a.intype,
+			a.sfrom,
+			a.getdate,
+			a.createdate,
+			a.updatedate
+		FROM conf_ratio a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateConfratio" parameterType="com.yuyoukj.model.qhd.Confratio">
+       UPDATE conf_ratio a
+            SET a.updatedate = #{updatedate}
+            <if test="sdate != null">
+            	, a.sdate = #{sdate}
+            </if>
+            <if test="ratio != null">
+            	, a.ratio = #{ratio}
+            </if>
+            <if test="stype != null">
+            	, a.stype = #{stype}
+            </if>
+            <if test="intype != null">
+            	, a.intype = #{intype}
+            </if>
+            <if test="sfrom != null">
+            	, a.sfrom = #{sfrom}
+            </if>
+            <if test="getdate != null">
+            	, a.getdate = #{getdate}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.ratioid = #{ratioid}
+	</update>
+	
+	<update id="updateConfratio_map" parameterType="java.util.HashMap">
+       UPDATE conf_ratio a
+            SET a.updatedate = #{updatedate}
+            <if test="sdate != null">
+            	, a.sdate = #{sdate}
+            </if>
+            <if test="ratio != null">
+            	, a.ratio = #{ratio}
+            </if>
+            <if test="stype != null">
+            	, a.stype = #{stype}
+            </if>
+            <if test="intype != null">
+            	, a.intype = #{intype}
+            </if>
+            <if test="sfrom != null">
+            	, a.sfrom = #{sfrom}
+            </if>
+            <if test="getdate != null">
+            	, a.getdate = #{getdate}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.ratioid = #{ratioid}
+	</update>
+
+	<insert id="saveConfratio" parameterType="com.yuyoukj.model.qhd.Confratio" useGeneratedKeys="true" keyProperty="ratioid">
+		INSERT INTO conf_ratio
+            (
+				sdate,
+				ratio,
+				stype,
+				intype,
+				sfrom,
+				getdate,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{sdate},
+				#{ratio},
+				#{stype},
+				#{intype},
+				#{sfrom},
+				#{getdate},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delConfratio" parameterType="java.util.HashMap">
+		DELETE FROM conf_ratio WHERE ratioid = #{ratioid}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

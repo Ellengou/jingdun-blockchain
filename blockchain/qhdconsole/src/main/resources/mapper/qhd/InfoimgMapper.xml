@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.InfoimgMapper">
+
+	<resultMap id="InfoimgResult" type="com.yuyoukj.model.qhd.Infoimg">
+		<result property="imgid" column="imgid"/>
+		<result property="imgurl" column="imgurl"/>
+		<result property="ctbname" column="ctbname"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM info_img a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="imgid !=null">
+				AND a.imgid != #{imgid}
+			</if>
+	</select>
+
+	<select id="getInfoimg" parameterType="java.util.HashMap" resultMap="InfoimgResult">
+		SELECT
+			a.imgid,
+			a.imgurl,
+			a.ctbname,
+			a.createdate,
+			a.updatedate
+		FROM info_img a
+		WHERE 1 = 1
+			<if test="imgid != null">
+				AND a.imgid = #{imgid}
+			</if>
+	</select>
+
+	<select id="getInfoimgList" parameterType="java.util.HashMap" resultMap="InfoimgResult">
+		SELECT
+			a.imgid,
+			a.imgurl,
+			a.ctbname,
+			a.createdate,
+			a.updatedate
+		FROM info_img a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateInfoimg" parameterType="com.yuyoukj.model.qhd.Infoimg">
+       UPDATE info_img a
+            SET a.updatedate = #{updatedate}
+            <if test="imgurl != null">
+            	, a.imgurl = #{imgurl}
+            </if>
+            <if test="ctbname != null">
+            	, a.ctbname = #{ctbname}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.imgid = #{imgid}
+	</update>
+	
+	<update id="updateInfoimg_map" parameterType="java.util.HashMap">
+       UPDATE info_img a
+            SET a.updatedate = #{updatedate}
+            <if test="imgurl != null">
+            	, a.imgurl = #{imgurl}
+            </if>
+            <if test="ctbname != null">
+            	, a.ctbname = #{ctbname}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.imgid = #{imgid}
+	</update>
+
+	<insert id="saveInfoimg" parameterType="com.yuyoukj.model.qhd.Infoimg" useGeneratedKeys="true" keyProperty="imgid">
+		INSERT INTO info_img
+            (
+				imgurl,
+				ctbname,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{imgurl},
+				#{ctbname},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delInfoimg" parameterType="java.util.HashMap">
+		DELETE FROM info_img WHERE imgid = #{imgid}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

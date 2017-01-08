@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.ConfareaMapper">
+
+	<resultMap id="ConfareaResult" type="com.yuyoukj.model.qhd.Confarea">
+		<result property="id" column="id"/>
+		<result property="areaid" column="areaid"/>
+		<result property="areaname" column="areaname"/>
+		<result property="fatherid" column="fatherid"/>
+		<result property="orderby" column="orderby"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM conf_area a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="id !=null">
+				AND a.id != #{id}
+			</if>
+	</select>
+
+	<select id="getConfarea" parameterType="java.util.HashMap" resultMap="ConfareaResult">
+		SELECT
+			a.id,
+			a.areaid,
+			a.areaname,
+			a.fatherid,
+			a.orderby
+		FROM conf_area a
+		WHERE 1 = 1
+			<if test="id != null">
+				AND a.id = #{id}
+			</if>
+	</select>
+
+	<select id="getConfareaList" parameterType="java.util.HashMap" resultMap="ConfareaResult">
+		SELECT
+			a.id,
+			a.areaid,
+			a.areaname,
+			a.fatherid,
+			a.orderby
+		FROM conf_area a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateConfarea" parameterType="com.yuyoukj.model.qhd.Confarea">
+       UPDATE conf_area a
+            SET a.updatedate = #{updatedate}
+            <if test="areaid != null">
+            	, a.areaid = #{areaid}
+            </if>
+            <if test="areaname != null">
+            	, a.areaname = #{areaname}
+            </if>
+            <if test="fatherid != null">
+            	, a.fatherid = #{fatherid}
+            </if>
+            <if test="orderby != null">
+            	, a.orderby = #{orderby}
+            </if>
+         WHERE a.id = #{id}
+	</update>
+	
+	<update id="updateConfarea_map" parameterType="java.util.HashMap">
+       UPDATE conf_area a
+            SET a.updatedate = #{updatedate}
+            <if test="areaid != null">
+            	, a.areaid = #{areaid}
+            </if>
+            <if test="areaname != null">
+            	, a.areaname = #{areaname}
+            </if>
+            <if test="fatherid != null">
+            	, a.fatherid = #{fatherid}
+            </if>
+            <if test="orderby != null">
+            	, a.orderby = #{orderby}
+            </if>
+         WHERE a.id = #{id}
+	</update>
+
+	<insert id="saveConfarea" parameterType="com.yuyoukj.model.qhd.Confarea" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO conf_area
+            (
+				areaid,
+				areaname,
+				fatherid,
+				orderby
+			)
+        VALUES
+            (
+				#{areaid},
+				#{areaname},
+				#{fatherid},
+				#{orderby}
+			)
+	</insert>
+
+	<delete id="delConfarea" parameterType="java.util.HashMap">
+		DELETE FROM conf_area WHERE id = #{id}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+

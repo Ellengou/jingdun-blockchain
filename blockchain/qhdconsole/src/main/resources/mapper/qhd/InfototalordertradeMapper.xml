@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yuyoukj.mapper.qhd.InfototalordertradeMapper">
+
+	<resultMap id="InfototalordertradeResult" type="com.yuyoukj.model.qhd.Infototalordertrade">
+		<result property="seq" column="seq"/>
+		<result property="totalorderid" column="totalorderid"/>
+		<result property="tradeid" column="tradeid"/>
+		<result property="createdate" column="createdate"/>
+		<result property="updatedate" column="updatedate"/>
+	</resultMap>
+
+	<select id="checkSname" parameterType="java.util.HashMap" resultType="Integer">
+		SELECT count(1)
+		FROM info_totalordertrade a
+		WHERE a.brandname = #{brandname} <!-- 根据实际参数调整 -->
+			<if test="seq !=null">
+				AND a.seq != #{seq}
+			</if>
+	</select>
+
+	<select id="getInfototalordertrade" parameterType="java.util.HashMap" resultMap="InfototalordertradeResult">
+		SELECT
+			a.seq,
+			a.totalorderid,
+			a.tradeid,
+			a.createdate,
+			a.updatedate
+		FROM info_totalordertrade a
+		WHERE a.seq = #{seq}
+	</select>
+
+	<select id="getInfototalordertradeList" parameterType="java.util.HashMap" resultMap="InfototalordertradeResult">
+		SELECT
+			a.seq,
+			a.totalorderid,
+			a.tradeid,
+			a.createdate,
+			a.updatedate
+		FROM info_totalordertrade a
+		WHERE 1 = 1
+			<if test="brandname != null"> <!-- 根据实际参数调整 -->
+				AND a.brandname like CONCAT('%','${brandname}','%') <!-- 根据实际参数调整 -->
+			</if>
+	</select>
+
+	<update id="updateInfototalordertrade" parameterType="com.yuyoukj.model.qhd.Infototalordertrade">
+       UPDATE info_totalordertrade a
+            SET a.updatedate = #{updatedate}
+            <if test="totalorderid != null">
+            	, a.totalorderid = #{totalorderid}
+            </if>
+            <if test="tradeid != null">
+            	, a.tradeid = #{tradeid}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+	
+	<update id="updateInfototalordertrade_map" parameterType="java.util.HashMap">
+       UPDATE info_totalordertrade a
+            SET a.updatedate = #{updatedate}
+            <if test="totalorderid != null">
+            	, a.totalorderid = #{totalorderid}
+            </if>
+            <if test="tradeid != null">
+            	, a.tradeid = #{tradeid}
+            </if>
+            <if test="createdate != null">
+            	, a.createdate = #{createdate}
+            </if>
+         WHERE a.seq = #{seq}
+	</update>
+
+	<insert id="saveInfototalordertrade" parameterType="com.yuyoukj.model.qhd.Infototalordertrade" useGeneratedKeys="true" keyProperty="seq">
+		INSERT INTO info_totalordertrade
+            (
+				totalorderid,
+				tradeid,
+				createdate,
+				updatedate
+			)
+        VALUES
+            (
+				#{totalorderid},
+				#{tradeid},
+				#{createdate},
+				#{updatedate}
+			)
+	</insert>
+
+	<delete id="delInfototalordertrade" parameterType="java.util.HashMap">
+		DELETE FROM info_totalordertrade WHERE seq = #{seq}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
